@@ -1,0 +1,13 @@
+name: Build E2E
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show dispatched ref
+        run: |
+          echo "dispatch ref=${{ github.ref }}"
+          echo "sha=${{ github.sha }}"

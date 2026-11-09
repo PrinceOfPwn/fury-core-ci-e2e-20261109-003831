@@ -1,0 +1,33 @@
+name: Tagging E2E
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: read
+
+jobs:
+  tagging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Show state
+        run: |
+          git log --oneline -5
+          git tag --list
+
+      - name: Run fury-core-ci snapshot
+        uses: ./action
+        with:
+          trigger-build: 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION_PREFIX: ''
